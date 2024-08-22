@@ -182,9 +182,6 @@ def predict():
         'model_names' : model_names
     }
 
-    del processed_image, explanations, predictions, feature_vectors
-    gc.collect()
-
     return jsonify(response)
 
 @app.route('/model-summary', methods=['GET'])
