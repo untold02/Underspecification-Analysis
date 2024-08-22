@@ -59,7 +59,7 @@ By interacting with the tool, users can gain a deeper understanding of how diffe
 * **Limiataions** : Keep in mind that this tool relies on visual explanations (LIME) and cosine distance comparisons. These methods provide insight into model behavior but should be supplemented with other analysis techniques for a complete evaluation of underspecification.
 
 
-<img width="707" alt="image" src="https://github.com/user-attachments/assets/31d08c19-7187-4c90-a376-6c324d444134">
+<img width="707" alt="image" src="demo_img.png">
 
 ---
 
