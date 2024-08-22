@@ -58,8 +58,8 @@ By interacting with the tool, users can gain a deeper understanding of how diffe
       It's especially beneficial in analyzing robustness, interpretability, and generalization behavior in models.
 * **Limiataions** : Keep in mind that this tool relies on visual explanations (LIME) and cosine distance comparisons. These methods provide insight into model behavior but should be supplemented with other analysis techniques for a complete evaluation of underspecification.
 
-## Model Overview:
-Here’s the refined version:
+
+<img width="707" alt="image" src="https://github.com/user-attachments/assets/31d08c19-7187-4c90-a376-6c324d444134">
 
 ---
 
