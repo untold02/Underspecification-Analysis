@@ -109,7 +109,6 @@ def get_lime_explanation(image, model, no_of_samples):
 
 app = Flask(__name__)
 
-
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -221,5 +220,4 @@ def model_summary():
         return jsonify({"error": "Model not found"}), 404
 
 if __name__ == '__main__':
-    # app.run(debug=False, use_reloader=False)
     app.run(host='0.0.0.0', port=8080)
