@@ -44,7 +44,7 @@ By interacting with the tool, users can gain a deeper understanding of how diffe
    
 5. **Model Summary and Architecture Visualization**:
     * On the right side of the page, you can explore the architecture and complexity of each model. By default it shows the total number of parameters and the architecture of the CNN model.
-    * To view the model complexity and architecture of different models, select the model from the **Select Model** dropdown menu under the **Model Architecture section**.
+    * To view the model complexity and architecture of different models, select the model from the **Select Model** dropdown menu under the **Model Summary** at the right panel of the screen.
     * Once selected, the models summary and an image representing the model’s architecture will appear, helping you understand the structural differences between models.
 
 6. **Analyze Underspecification**:
