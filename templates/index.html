@@ -6,45 +6,156 @@
     <title>Draw a Digit</title>
     <style>
         body {
-            display: flex; /* Use flexbox for layout */
-            flex-direction: column; /* Stack elements vertically */
-            justify-content: center; /* Center vertically */
-            align-items: center; /* Center horizontally */
-            height: 100vh; /* Full height of the viewport */
-            margin: 0; /* Remove default margin */
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
             background-color: white;
             color: black;
         }
+        #left-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 70%;
+            height: 100%;
+        }
+        #right-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding: 20px;
+            width: 30%;
+            border-left: 2px solid orange;
+            height: 100%;
+        }
         #canvas {
-            border: 1px solid orange;
+            border: 1px solid black;
             background-color: black;
         }
-        #explanation {
-            border: 2px solid orange;
-            display: inline-block;
-            margin-top: 20px; /* Add some space above the explanation canvas */
+
+        .explanation-box {
+            border: 2px solid black;
+            width: 280px;
+            height: 280px;
+            /* margin-bottom: 10px; */
         }
+        .explanation-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            width: 100%;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            margin-left: 30px;
+            margin-right: 20px;
+            gap: 20px;
+        }
+
+        figure {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        figcaption {
+            margin-top: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        select, textarea {
+            margin-top: 10px;
+            width: 100%;
+            font-size: 16px;
+        }
+        textarea {
+            height: 150px;
+        }
+
+        #model-architecture {
+        max-width: 100%;
+        height: auto;
+        border: 1px solid black;
+        }
+
+
     </style>
 </head>
+
+
 <body>
-    <h1 style="text-align:center"> Draw a Digit </h1>
-    <canvas id="canvas" width="280" height="280"></canvas>
+    <div id="left-panel">
+        <h1 style="text-align:center"> Draw a Digit </h1>
+        <canvas id="canvas" width="280" height="280"></canvas>
+        <br>
+        <button onclick="clearEverything()" style="width: 100px; height: 40px;">Clear</button>
+        <button onclick="submitCanvas()" style="width: 100px; height: 40px;">Submit</button>
 
-    <h2>Select Model:</h2>
-    <select id="modelSelect"  style="width: 200px; height: 40px; font-size: 16px;">
-        <option value="model1">CNN</option>
-        <option value="model2">MobileNet</option>
-        <option value="model3">DenseNet</option>
+        <br>
+        <h1 style="text-align:center"> LIME Explanations </h1>
+        <div class="explanation-row">
+            <figure>
+                <h3 id="model-title1"></h3>
+                <canvas id="explanation1" class="explanation-box"></canvas>
+                <figcaption id="label1"></figcaption>
+            </figure>
+        
+            <figure>
+                <h3 id="model-title2"></h3>
+                <canvas id="explanation2" class="explanation-box"></canvas>
+                <figcaption id="label2"></figcaption>
+            </figure>
 
-    </select>
-    <br>
-    <button onclick="clearCanvas()" style="width: 100px; height: 40px;">Clear</button>
-    <button onclick="submitCanvas()" style="width: 100px; height: 40px;">Submit</button>
+            <figure>
+                <h3 id="model-title3"></h3>
+                <canvas id="explanation3" class="explanation-box"></canvas>
+                <figcaption id="label3"></figcaption>
+            </figure>
+        </div>
+<!--         
+        <div class="explanation-row">
+            
+        
+            <figure>
+                <h3 id="model-title4"></h3>
+                <canvas id="explanation4" class="explanation-box"></canvas>
+                <figcaption id="label4"></figcaption>
+            </figure>
+        </div> -->
+        <br>
+        
+        <h1 style="text-align:center"> Cosine Distance Confusion Matrix </h1>
+        <div id="confusion-matrix">
+            <img id="confusion-matrix-img" alt="Confusion Matrix" />
+            <!-- <canvas id="confusion-matrix-img" class="matrix-box"></canvas> -->
+        </div>
+    </div>
 
+    <div id="right-panel">
+        <h2>Select Model:</h2>
+        <select id="modelSelect">
+            <option value="CNN">CNN</option>
+            <option value="MobileNet">MobileNet</option>
+            <option value="DenseNet">DenseNet</option>
+            <!-- <option value="model4">DenseNet</option> -->
+        </select>
+        <h2>Model Summary:</h2>
+        <pre id="summary-txt"></pre>
 
-    <h2 id="prediction"></h2>
-    <h2>LIME Explanation:</h2>
-    <canvas id="explanation" width="280" height="280"></canvas>
+        <h2>Model Architecture:</h2>
+        <img id="model-architecture" alt="Model Architecture"/>
+    </div>
+
     <script>
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
@@ -67,14 +178,11 @@
 
         function draw(event) {
             if (!drawing) return;
-
             ctx.lineWidth = 20;
             ctx.lineCap = 'round';
             ctx.strokeStyle = 'white';
-
             ctx.lineTo(event.clientX - canvas.offsetLeft, event.clientY - canvas.offsetTop);
             ctx.stroke();
-
             ctx.beginPath();
             ctx.moveTo(event.clientX - canvas.offsetLeft, event.clientY - canvas.offsetTop);
         }
@@ -83,45 +191,97 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.beginPath();
         }
+        
+        function clearEverything() {
+            // Clear the canvas
+            clearCanvas();
+            
+            // Clear LIME explanations
+            const explanationCanvases = document.querySelectorAll('.explanation-box');
+            explanationCanvases.forEach(canvas => {
+                const ctx = canvas.getContext('2d');
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            });
+
+            const labels = document.querySelectorAll('figcaption');
+            labels.forEach(label => label.innerText = '');
+
+            const modelTitles = document.querySelectorAll('h3[id^="model-title"]');
+            modelTitles.forEach(title => title.innerText = '');
+
+            // Clear confusion matrix
+            const confusionMatrixImg = document.getElementById('confusion-matrix-img');
+            confusionMatrixImg.src = '';  // Remove the image source
+        }
 
         function submitCanvas() {
             const dataURL = canvas.toDataURL('image/png');
-            const selectedModel = document.getElementById('modelSelect').value; // Get selected model
             fetch('/predict', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ image: dataURL, model: selectedModel }) 
+                body: JSON.stringify({ image: dataURL })
             })
             .then(response => response.json())
             .then(data => {
-                const predictedDigit = data.prediction[selectedModel];
-                document.getElementById('prediction').textContent = `Predicted Digits: ${predictedDigit}`;
+                const predictions = data.predictions;
+                const explanations = data.explanations;
+                const cosineDistanceImage = data.cosine_distance_img;
+                const modelNames = data.model_names;
+
+                let modelIndex = 1;  // Start index at 1 to match IDs (explanation1, label1, etc.)
+
+                modelNames.forEach((modelName, index) => {
+                    const explanationCanvas = document.getElementById(`explanation${modelIndex}`);
+                    const explanationCtx = explanationCanvas.getContext('2d');
+                    const explanationImage = new Image();
+                    explanationImage.onload = () => {
+                        explanationCtx.drawImage(explanationImage, 0, 0, explanationCanvas.width, explanationCanvas.height);
+                    };
+                    explanationImage.src = `data:image/png;base64,${explanations[modelName]}`;
+
+                    const labelElement = document.getElementById(`label${modelIndex}`);
+                    const prediction = predictions[modelName];
+                    if (prediction) {
+                        labelElement.innerText = `Predicted: ${prediction.label} (${(prediction.probability * 100).toFixed(2)}%)`;
+                    }
+
+                    const modelTitle = document.getElementById(`model-title${modelIndex}`);
+                    modelTitle.innerText = `Positive for ${modelName}`;
+
+                    modelIndex++;  // Increment index for the next model
+                });
+
+                const imgElement = document.getElementById('confusion-matrix-img');
+                imgElement.src = `data:image/png;base64,${cosineDistanceImage}`;
+                });
+                }
 
 
-                const explanationCanvas = document.getElementById('explanation');
-                const explanationCtx = explanationCanvas.getContext('2d');
-                const explanationImage = new Image();
-                
-                explanationImage.onload = () => {
-                    explanationCtx.drawImage(explanationImage, 0, 0, explanationCanvas.width, explanationCanvas.height);
-                };
-
-                const explanationSrc = data.explanation[selectedModel];
-                explanationImage.src = `data:image/png;base64,${explanationSrc}`;
-            });
-        }
-         //an event listener to reset the explanation when the model is changed
-        document.getElementById('modelSelect').addEventListener('change', function() {
-            const explanationCanvas = document.getElementById('explanation');
-            const explanationCtx = explanationCanvas.getContext('2d');
-            explanationCtx.clearRect(0, 0, explanationCanvas.width, explanationCanvas.height);
-
-            // Reset the prediction text as well
-            document.getElementById('prediction').textContent = '';
+        document.addEventListener('DOMContentLoaded', () => {
+        loadModelSummary('CNN');  // Load CNN model by default on page load
         });
 
+        document.getElementById('modelSelect').addEventListener('change', function() {
+            const selectedModel = this.value;
+            loadModelSummary(selectedModel);
+        });
+
+        function loadModelSummary(modelName) {
+            fetch(`/model-summary?model=${modelName}`)
+            .then(response => response.json())
+            .then(data => {
+                const modelSummary = document.getElementById('summary-txt');
+                const modelArchitectureImg = document.getElementById('model-architecture');
+
+                modelSummary.textContent = data.model_summary;
+                modelArchitectureImg.src = `data:image/png;base64,${data.model_plot}`;
+
+                modelArchitectureImg.style.width = '400px'; // Set to desired width
+                modelArchitectureImg.style.height = '600px';
+            });
+        }
 
     </script>
 </body>
