@@ -58,9 +58,15 @@ By interacting with the tool, users can gain a deeper understanding of how diffe
       It's especially beneficial in analyzing robustness, interpretability, and generalization behavior in models.
 * **Limiataions** : Keep in mind that this tool relies on visual explanations (LIME) and cosine distance comparisons. These methods provide insight into model behavior but should be supplemented with other analysis techniques for a complete evaluation of underspecification.
 
-# Model Overview:
-For this demo, we used three deep learning models with varying levels of architectural complexity: Custom CNN, MobileNetV2, and DenseNet121. 
-These models are chosen to highlight different aspects of underspecification by demonstrating how models with distinct architectures and complexities interpret the same input data differently.
+## Model Overview:
+Here’s the refined version:
+
+---
+
+## Model Overview:
+In this demo, we used three deep learning models with varying levels of architectural complexity: Custom CNN, MobileNetV2, and DenseNet121.
+All of these models were selected based on their diverse architectural design, and their performance during training and validation phase. Where their performances were higher than 0.90 within 10 epochs, meeting our threshold criteria. These models, while performing similarly during training, were chosen to highlight different aspects of underspecification by demonstrating how models with distinct architectures and complexities interpret the same input data differently during generalization. The diversity in architecture and complexity among these three models makes them well-suited for underspecification analysis. By comparing how each model interprets the same input, we can identify instances where different models, despite producing similar outputs, rely on different parts of the input data. This divergence in model interpretation is a key indicator of underspecification, where the models' learned features may not fully capture the true underlying patterns in the data.
+Overall, the chosen models provide a comprehensive framework for exploring underspecification, offering insights into how different levels of model complexity and architectural design influence the learning process and the resulting predictions.
 
 ## **Custom CNN:**
 * **Simplicity and Interpretability**: The Custom CNN is a straightforward, easy-to-understand model trained from scratch on the MNIST dataset. 
@@ -71,7 +77,7 @@ By comparing the Custom CNN's behavior with that of more complex models, we can 
 thus providing insights into underspecification.
 
 ## **MobileNetV2:**
-Efficiency and Compactness: MobileNetV2 is a lightweight model optimized for mobile and edge devices. It utilizes depthwise separable convolutions to reduce the number of parameters 
+* **Efficiency and Compactness**: MobileNetV2 is a lightweight model optimized for mobile and edge devices. It utilizes depthwise separable convolutions to reduce the number of parameters 
 and computational requirements, all while maintaining high accuracy. This model's design makes it interesting for underspecification analysis, as its architecture is focused on efficiency 
 rather than complexity.
 
@@ -85,9 +91,3 @@ This design promotes feature reuse, reduces the need to relearn redundant featur
 * **Understanding Complex Models**: Due to its complexity, DenseNet121 can capture more intricate patterns in the data, making it ideal for analyzing whether complex models are more prone to 
 underspecification. By comparing DenseNet121's behavior with that of simpler models, we can assess whether complexity leads to more robust or more divergent model interpretations.
 
-Appropriateness for Analyzing Underspecification:
-The diversity in architecture and complexity among these three models makes them well-suited for underspecification analysis. By comparing how each model interprets the same input,
-we can identify cases where different models, despite producing similar outputs, rely on different parts of the input data. This divergence in model interpretation is a key indicator of underspecification, where the model's learned features may not fully align with the true underlying patterns in the data.
-
-Overall, the chosen models provide a comprehensive framework for exploring underspecification, offering insights into how different levels of model complexity and architectural design
-influence the learning process and the resulting predictions.
