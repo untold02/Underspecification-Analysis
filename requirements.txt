@@ -1,0 +1,10 @@
+Flask
+lime
+matplotlib==3.7.2
+numpy==1.26.0
+opencv_contrib_python
+Pillow
+scikit-image
+tensorflow-cpu==2.14.0
+gunicorn
+boto3

@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draw a Digit</title>
+    <style>
+        body {
+            display: flex; /* Use flexbox for layout */
+            flex-direction: column; /* Stack elements vertically */
+            justify-content: center; /* Center vertically */
+            align-items: center; /* Center horizontally */
+            height: 100vh; /* Full height of the viewport */
+            margin: 0; /* Remove default margin */
+            background-color: white;
+            color: black;
+        }
+        #canvas {
+            border: 1px solid orange;
+            background-color: black;
+        }
+        #explanation {
+            border: 2px solid orange;
+            display: inline-block;
+            margin-top: 20px; /* Add some space above the explanation canvas */
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align:center"> Draw a Digit </h1>
+    <canvas id="canvas" width="280" height="280"></canvas>
+
+    <h2>Select Model:</h2>
+    <select id="modelSelect"  style="width: 200px; height: 40px; font-size: 16px;">
+        <option value="model1">CNN</option>
+        <option value="model2">MobileNet</option>
+        <option value="model3">DenseNet</option>
+
+    </select>
+    <br>
+    <button onclick="clearCanvas()" style="width: 100px; height: 40px;">Clear</button>
+    <button onclick="submitCanvas()" style="width: 100px; height: 40px;">Submit</button>
+
+
+    <h2 id="prediction"></h2>
+    <h2>LIME Explanation:</h2>
+    <canvas id="explanation" width="280" height="280"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let drawing = false;
+
+        canvas.addEventListener('mousedown', () => drawing = true);
+        canvas.addEventListener('mouseup', () => drawing = false);
+        canvas.addEventListener('mousemove', draw);
+
+        function startDrawing(event) {
+            drawing = true;
+            ctx.beginPath(); // Start a new path each time the drawing starts
+            ctx.moveTo(event.clientX - canvas.offsetLeft, event.clientY - canvas.offsetTop); // Move to the position where drawing starts
+        }
+
+        function stopDrawing() {
+            drawing = false;
+            ctx.beginPath(); // Reset the path when drawing stops
+        }
+
+        function draw(event) {
+            if (!drawing) return;
+
+            ctx.lineWidth = 20;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = 'white';
+
+            ctx.lineTo(event.clientX - canvas.offsetLeft, event.clientY - canvas.offsetTop);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(event.clientX - canvas.offsetLeft, event.clientY - canvas.offsetTop);
+        }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+        }
+
+        function submitCanvas() {
+            const dataURL = canvas.toDataURL('image/png');
+            const selectedModel = document.getElementById('modelSelect').value; // Get selected model
+            fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ image: dataURL, model: selectedModel }) 
+            })
+            .then(response => response.json())
+            .then(data => {
+                const predictedDigit = data.prediction[selectedModel];
+                document.getElementById('prediction').textContent = `Predicted Digits: ${predictedDigit}`;
+
+
+                const explanationCanvas = document.getElementById('explanation');
+                const explanationCtx = explanationCanvas.getContext('2d');
+                const explanationImage = new Image();
+                
+                explanationImage.onload = () => {
+                    explanationCtx.drawImage(explanationImage, 0, 0, explanationCanvas.width, explanationCanvas.height);
+                };
+
+                const explanationSrc = data.explanation[selectedModel];
+                explanationImage.src = `data:image/png;base64,${explanationSrc}`;
+            });
+        }
+         //an event listener to reset the explanation when the model is changed
+        document.getElementById('modelSelect').addEventListener('change', function() {
+            const explanationCanvas = document.getElementById('explanation');
+            const explanationCtx = explanationCanvas.getContext('2d');
+            explanationCtx.clearRect(0, 0, explanationCanvas.width, explanationCanvas.height);
+
+            // Reset the prediction text as well
+            document.getElementById('prediction').textContent = '';
+        });
+
+
+    </script>
+</body>
+</html>
