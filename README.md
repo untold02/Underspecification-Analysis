@@ -3,6 +3,16 @@
 This is a demo version of our work on analyzing underspecification in deep learning models, leveraging the post-hoc explanation tool LIME (Local Interpretable Model-agnostic Explanations). 
 The tool is designed to provide insight into how different deep learning models behave when presented with the same input data, specifically focusing on digit classification.
 
+### Running the Tool
+One can run the tool direcly by accessing the URL:
+[Run the Tool Online](http://ec2-3-26-78-68.ap-southeast-2.compute.amazonaws.com:8080/)
+
+### Locally
+To run the tool locally, follow these steps:
+1. **Clone the repository:**
+   ```bash
+   git clone
+   
 ## Key Features:
 
 * **Interactive Analysis**: 
