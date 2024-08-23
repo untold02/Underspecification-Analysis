@@ -3,15 +3,51 @@
 This is a demo version of our work on analyzing underspecification in deep learning models, leveraging the post-hoc explanation tool LIME (Local Interpretable Model-agnostic Explanations). 
 The tool is designed to provide insight into how different deep learning models behave when presented with the same input data, specifically focusing on digit classification.
 
-### Running the Tool
-One can run the tool direcly by accessing the URL:
+## Running the Tool
+
+## Online
+
+One can run the tool direcly by accessing this URL:
 [Run the Tool Online](http://ec2-3-26-78-68.ap-southeast-2.compute.amazonaws.com:8080/)
 
 ### Locally
-To run the tool locally, follow these steps:
+If you want to run the tool locally, follow these steps:
+
 1. **Clone the repository:**
+   
    ```bash
-   git clone
+   git clone https://github.com/untold02/Underspecification-Analysis.git
+
+2. **Download the pre-trained model weights**:
+   
+   Download the necessary model weights from [here](https://drive.google.com/drive/folders/1amEf3MY9hD2B_TyZE1OKHYPME_npf2Gu?usp=sharing).
+
+3. **Set up environment**:
+   
+   Ensure you have compatible Python version (<3.10), as the models were trained on Tensorflow 2.14.0.
+   
+4. **Install the required dependencies**:
+   
+   Create a virtual environment and install the dependencies:
+   ```bash
+   python -m venv env
+   
+   source env/bin/activate
+   
+   pip install -r requirements.txt
+
+6. **Run the tool**:
+   
+   ```bash
+   python app.py
+
+6. **Access the tool**:
+    
+   Open your web browser and go to:
+   
+   ```arduino
+   http://localhost:8080/
+   ```
    
 ## Key Features:
 
