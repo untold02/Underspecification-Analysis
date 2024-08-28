@@ -114,7 +114,7 @@ In this demo, we used three deep learning models with varying levels of architec
 All of these models were selected based on their diverse architectural design and their performance during the training and validation phases. Where their performances were higher than 0.90 within 10 epochs, meeting our threshold criteria. These models, while performing similarly during training, were chosen to highlight different aspects of underspecification by demonstrating how models with distinct architectures and complexities interpret the same input data differently during generalization. The diversity in architecture and complexity among these three models makes them well-suited for underspecification analysis. By comparing how each model interprets the same input, we can identify instances where different models, despite producing similar outputs, rely on different parts of the input data. This divergence in model interpretation is a key indicator of underspecification, where the models' learned features may not fully capture the true underlying patterns in the data.
 Overall, the chosen models provide a comprehensive framework for exploring underspecification, offering insights into how different levels of model complexity and architectural design influence the learning process and the resulting predictions.
 
-## **Custom CNN:**
+## **CNN:**
 * **Simplicity and Interpretability**: The Custom CNN is a straightforward, easy-to-understand model trained from scratch on the MNIST dataset. 
 Its architecture consists of a few convolutional layers, making it less complex compared to other deep learning models. 
 This simplicity allows us to clearly observe how the model processes input data and makes predictions.
