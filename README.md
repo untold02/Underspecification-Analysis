@@ -122,14 +122,11 @@ This simplicity allows us to clearly observe how the model processes input data 
 By comparing the Custom CNN's behavior with that of more complex models, we can investigate whether the simplicity of the model leads to different interpretations of the same input,
 thus providing insights into underspecification.
 
-## **MobileNetV2:**
-* **Efficiency and Compactness**: MobileNetV2 is a lightweight model optimized for mobile and edge devices. It utilizes depthwise separable convolutions to reduce the number of parameters 
-and computational requirements, all while maintaining high accuracy. This model's design makes it interesting for underspecification analysis, as its architecture is focused on efficiency 
-rather than complexity.
+## **ResNet50**:
 
-* **Architectural Diversity**: MobileNetV2 introduces a different architectural paradigm compared to the Custom CNN, particularly through its use of inverted residuals and linear bottlenecks. 
-Analyzing this model alongside the others helps us explore how architectural innovations aimed at efficiency might impact the model's interpretability and behavior, potentially leading to 
-different forms of underspecification.
+**Depth and Residual Connections**: ResNet50 is a deep neural network characterized by its use of residual connections, which help mitigate issues such as vanishing gradients and allow the model to train effectively even with many layers. These skip connections enable the network to learn more complex representations by facilitating the flow of gradients through deeper layers.
+
+**Architectural Diversity:** ResNet50 introduces a significantly different architectural paradigm compared to the Custom CNN, with its deep residual blocks allowing the network to learn richer and more intricate features. Analyzing ResNet50 alongside the other models helps us explore how deep architectures and residual connections affect the model's interpretability and behavior, potentially leading to different forms of underspecification.
 
 ## **DenseNet121:**
 * **Complexity and Feature Reuse**: DenseNet121 is the most complex model in this demo, characterized by its dense connectivity pattern where each layer receives input from all previous layers. 
