@@ -8,8 +8,7 @@ The tool is designed to provide insight into how different deep learning models 
 ## Online
 
 One can run the tool direcly by accessing this URL:
-[Run the Tool Online](http://ec2-3-26-78-68.ap-southeast-2.compute.amazonaws.com:8080/)
-
+[Run the Tool Online](http://ec2-3-107-31-196.ap-southeast-2.compute.amazonaws.com:8080/)
 ### Locally
 If you want to run the tool locally, follow these steps:
 
