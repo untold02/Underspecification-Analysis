@@ -31,8 +31,14 @@ If you want to run the tool locally, follow these steps:
    Create a virtual environment and install the dependencies:
    ```bash
    python -m venv env
-   
-   source env/bin/activate
+   # For Mac/Linux OS
+   source env/bin/activate 
+
+   # For windows
+   # In cmd.exe
+   venv\Scripts\activate.bat
+   # In PowerShell
+   venv\Scripts\Activate.ps1
    
    pip install -r requirements.txt
 
